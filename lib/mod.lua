@@ -55,6 +55,8 @@ local function add_lfo_params(idx)
     params:set_action("osc_rect_" .. idx, function(param)
         crow.ii.txo.osc_rect(idx, param)
     end)
+
+    params:hide("txo_lfo_" .. idx)
 end
 
 local function add_lfo(idx)
@@ -75,12 +77,13 @@ local function add_lfo(idx)
 
     function player:active()
         if self.name ~= nil then
-            xrow.ii.txo.cv(idx, 0)
+            params:show("txo_lfo_" .. idx)
+            _menu.rebuild_params()
+
+            crow.ii.txo.cv(idx, 0)
             crow.ii.txo.osc_lfo(idx, 1)
             crow.ii.txo.osc_ctr(idx, 0)
             crow.ii.txo.osc_rect(idx, 0)
-            params:show("txo_lfo_" .. idx)
-            _menu.rebuild_params()
         end
     end
 
